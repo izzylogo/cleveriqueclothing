@@ -35,6 +35,7 @@ class CheckoutController extends Controller
         }
 
         //stripe payment 
+        /*
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
         $lineItems = [];
         foreach ($mergedData as $item) {
@@ -51,15 +52,13 @@ class CheckoutController extends Controller
                 ];
         }
 
-
-
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' =>  $lineItems,
             'mode' => 'payment',
             'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout.cancel'),
         ]);
-
+        */
 
         $newAddress = $request->address;
         if ($newAddress['address1'] != null) {
@@ -82,7 +81,8 @@ class CheckoutController extends Controller
             $order = new Order();
             $order->status = 'unpaid';
             $order->total_price = $request->total;
-            $order->session_id = $checkout_session->id;
+            // $order->session_id = $checkout_session->id; // commented out for now
+            $order->session_id = 'manual-test-' . uniqid();
             $order->created_by = $user->id;
             // If a main address with isMain = 1 exists, set its id as customer_address_id
             $order->user_address_id = $mainAddress->id;
@@ -121,7 +121,8 @@ class CheckoutController extends Controller
 
             Payment::create($paymentData);
         }
-        return Inertia::location($checkout_session->url);
+        // return Inertia::location($checkout_session->url); // commented out for now
+        return redirect()->route('dashboard')->with('success', 'Order placed successfully (no payment processed).');
     }
 
     public function success(Request $request)

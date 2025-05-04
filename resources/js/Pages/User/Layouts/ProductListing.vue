@@ -35,7 +35,7 @@
       <div 
         v-for="(product, index) in products" 
         :key="product.id"
-        class="relative bg-white-800 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-4 min-h-[370px]"
+        class="relative bg-slate-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-4 min-h-[370px]"
         :style="{ animationDelay: `${index * 100}ms` }"
       >
         <!-- Badge and Wishlist -->
@@ -112,20 +112,29 @@
 
   <!-- Product Detail Modal -->
   <div v-if="showModal && selectedProduct" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
-      <button @click="closeProductModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
-      <div class="flex flex-col items-center">
-        <img v-if="selectedProduct.product_images && selectedProduct.product_images.length > 0" :src="`/${selectedProduct.product_images[0].image}`" :alt="selectedProduct.title" class="w-40 h-40 object-contain mb-4" />
-        <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png" :alt="selectedProduct.title" class="w-40 h-40 object-contain mb-4" />
-        <h2 class="text-xl font-bold mb-2">{{ selectedProduct.title }}</h2>
-        <p class="text-red-600 text-lg font-semibold mb-2">₦{{ selectedProduct.price }}</p>
-        <p class="text-gray-700 mb-2">{{ selectedProduct.description }}</p>
-        <div class="flex flex-col gap-1 text-sm text-gray-600 w-full mb-4">
-          <div><span class="font-semibold">Quantity:</span> {{ selectedProduct.quantity }}</div>
-          <div><span class="font-semibold">Brand:</span> {{ selectedProduct.brand?.name }}</div>
-          <div><span class="font-semibold">Category:</span> {{ selectedProduct.category?.name }}</div>
+    <div class="bg-white rounded-lg shadow-lg w-[90%] md:w-[45%] p-6 relative">
+      <button @click="closeProductModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-4xl">&times;</button>
+      <div class="flex items-center gap-5 justify-between">
+        <div>
+          <img v-if="selectedProduct.product_images && selectedProduct.product_images.length > 0" :src="`/${selectedProduct.product_images[0].image}`" :alt="selectedProduct.title" class="w-40 h-[270px] object-contain mb-4 rounded-xl overflow-hidden" style="width: auto !important" />
+          <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png" :alt="selectedProduct.title" class="w-40 h-[270px] object-contain mb-4 rounded-xl overflow-hidden" style="width: auto !important" />
         </div>
-        <button @click="addToCart(selectedProduct)" class="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors">Add to Cart</button>
+        <div class="w-[49%]">
+          <h2 class="text-xl font-bold mb-2">{{ selectedProduct.title }}</h2>
+          <p class="text-red-600 text-base font-semibold mb-2">₦{{ selectedProduct.price }}</p>
+          <div class="flex items-center gap-2 bg-red-100 text-red-700 rounded-lg px-4 py-2 mb-2 font-bold text-sm">
+            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ selectedProduct.description }}</span>
+          </div>
+          <div class="flex flex-col gap-1 text-sm text-gray-600 w-full mb-4">
+            <div><span class="font-semibold">Quantity:</span> {{ selectedProduct.quantity }}</div>
+            <div><span class="font-semibold">Brand:</span> {{ selectedProduct.brand?.name }}</div>
+            <div><span class="font-semibold">Category:</span> {{ selectedProduct.category?.name }}</div>
+          </div>
+          <button @click="addToCart(selectedProduct)" class="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors">Add to Cart</button>
+        </div>
       </div>
     </div>
   </div>

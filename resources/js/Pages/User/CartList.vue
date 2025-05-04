@@ -21,7 +21,7 @@ const form = reactive({
     zipcode: null,
     country_code: null,
     type: null,
-
+    phone_number: null,
 })
 const formFilled = computed(()=>{
    return (form.address1 !== null &&
@@ -29,6 +29,7 @@ const formFilled = computed(()=>{
     form.city !== null &&
     form.zipcode !== null &&
     form.country_code !== null &&
+    form.phone_number !== null &&
     form.type !== null )
 })
 
@@ -122,6 +123,7 @@ function submit() {
                                                 placeholder="1" required>
                                         </div>
                                         <button @click.prevent="update(product, carts[itemId(product.id)].quantity + 1)"
+                                            :disabled="carts[itemId(product.id)].quantity > product.quantity"
                                             class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                             type="button">
                                             <span class="sr-only">Quantity button</span>
@@ -134,7 +136,7 @@ function submit() {
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    ${{ product.price }}
+                                    ₦{{ product.price }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <a @click="remove(product)"
@@ -148,7 +150,7 @@ function submit() {
                 </div>
                 <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
                     <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Summary</h2>
-                    <p class="leading-relaxed mb-5 text-gray-600">Total : $ {{ total }} </p>
+                    <p class="leading-relaxed mb-5 text-gray-600">Total : ₦ {{ total }} </p>
 
                     <div v-if="userAddress">
                         <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Shipping Address</h2>
@@ -193,6 +195,11 @@ function submit() {
                         <div class="relative mb-4">
                             <label for="email" class="leading-7 text-sm text-gray-600">Address type</label>
                             <input type="text" id="email" name="type" v-model="form.type"
+                                class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="email" class="leading-7 text-sm text-gray-600">WhatsApp Phone Number</label>
+                            <input type="text" id="email" name="phone_number" v-model="form.phone_number"
                                 class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
 
